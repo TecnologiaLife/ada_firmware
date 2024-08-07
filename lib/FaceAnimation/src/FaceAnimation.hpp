@@ -22,14 +22,6 @@ namespace Face
     };
 
 
-    enum class FaceEvent
-    {
-        Blink,
-        // ここまで
-        ItemIndex
-    };
-
-
     class FaceAnimation
     {
         private:
@@ -43,11 +35,14 @@ namespace Face
             uint32_t prev_ms = 0;           // 前回実行時間
             FacialExpression now_fe;        // 現在の表情ステート
             FacialExpression tgt_fe;        // 指示されている表情ステート
-            bool f_now_event = false;       // 何かしらの表情イベント実行中か否か
-            uint8_t animation_frame = 0;
+            bool f_now_blink = false;       // 瞬きイベント実行中か否か
+            uint32_t prev_blink_time = 0;   // 前回イベント時間
+            uint8_t blink_frame = 0;        // 瞬きアニメーションの現在フレーム数
 
             void draw(Face::FacialExpression fe);
+            void drawBlink();
             FaceData getFaceData(Face::FacialExpression fe);
+            bool blinkJudge(FacialExpression face, uint32_t last_blink_time);
 
         public:
             FaceAnimation();
