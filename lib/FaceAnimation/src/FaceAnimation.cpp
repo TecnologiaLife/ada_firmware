@@ -192,6 +192,8 @@ void Face::FaceAnimation::drawBlink()
         // クリア
         this->f_now_blink = false;
         this->blink_frame = 0;
+        // 瞬きした時刻を更新
+        this->prev_blink_time = millis();
     }
     else
     {
@@ -245,7 +247,7 @@ FaceData Face::FaceAnimation::getFaceData(Face::FacialExpression fe)
 /**
  * @fn
  * @brief 瞬きするかどうかを判断します
- * @details 最後に瞬きした時間から3秒経過後、10%の確率でtrue。最後に瞬きした時間から3秒以内、2%の確率でtrue
+ * @details 最後に瞬きした時間から3秒経過後、5%の確率でtrue。最後に瞬きした時間から3秒以内、2%の確率でtrue
  * @param last_blink_time 最後に瞬きした時間
  * @return true or false
  */
@@ -259,7 +261,7 @@ bool Face::FaceAnimation::blinkJudge(FacialExpression face, uint32_t last_blink_
     if(face == FacialExpression::Normal)
     {
         if(diff > kDiffTimeThres){ ret = (random_num > 950) ? true : false; }
-        else                     { ret = (random_num > 990) ? true : false; }
+        else                     { ret = (random_num > 980) ? true : false; }
     }
     else
     {
